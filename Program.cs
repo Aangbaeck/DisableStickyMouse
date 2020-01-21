@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading.Tasks;
-
+using CSharpLib;
 namespace DisableStickyCorners
 {
     class Program
@@ -37,6 +37,12 @@ namespace DisableStickyCorners
 
         static void Main(string[] args)
         {
+
+            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)+ "\\DisableStickyCorners.exe";
+            CSharpLib.Shortcut shortcut = new CSharpLib.Shortcut();
+            var startupPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            shortcut.CreateShortcutToFile(path, startupPath + "\\DisableStickyCorners.lnk");
+
             //If app already running, kill process.
             if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly()?.Location)).Length > 1) System.Diagnostics.Process.GetCurrentProcess().Kill();
 

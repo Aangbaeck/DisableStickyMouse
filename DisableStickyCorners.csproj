@@ -39,6 +39,9 @@
     <ApplicationIcon>mouse.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSharpLib, Version=2.5.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CSharpLib.2.5.8\lib\CSharpLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -56,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="mouse.ico" />
