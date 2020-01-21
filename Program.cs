@@ -31,14 +31,14 @@ namespace DisableStickyCorners
             public int Top { get; set; }
             public int Left { get; set; }
             public int Right { get; set; }
-
+            public int Bottom { get; set; }
         }
 
 
         static void Main(string[] args)
         {
 
-            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)+ "\\DisableStickyCorners.exe";
+            var path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\DisableStickyCorners.exe";
             CSharpLib.Shortcut shortcut = new CSharpLib.Shortcut();
             var startupPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
             shortcut.CreateShortcutToFile(path, startupPath + "\\DisableStickyCorners.lnk");
@@ -49,7 +49,7 @@ namespace DisableStickyCorners
             // Hide console window
             var handle = GetConsoleWindow();
             ShowWindow(handle, SW_HIDE);
-            
+
             int stickyCornersHeight = 6; //Sticky corners are 5 pixels high.
             List<Screen> CornerPositions = new List<Screen>();
             foreach (System.Windows.Forms.Screen screen in System.Windows.Forms.Screen.AllScreens)
@@ -62,7 +62,7 @@ namespace DisableStickyCorners
                 Console.WriteLine($"Top: {screen.Bounds.Top}, L:{screen.Bounds.Left}, R:{screen.Bounds.Right}");
                 Console.WriteLine();
 
-                CornerPositions.Add(new Screen() { Top = screen.Bounds.Top, Right = screen.Bounds.Right, Left = screen.Bounds.Left });
+                CornerPositions.Add(new Screen() { Top = screen.Bounds.Top, Right = screen.Bounds.Right, Left = screen.Bounds.Left, Bottom = screen.Bounds.Bottom});
             }
 
 
@@ -79,7 +79,7 @@ namespace DisableStickyCorners
                         //Find what screen we are on and see if we should move the mouse cursor ++ or --
                         foreach (var cornerPosition in CornerPositions)
                         {
-                            if (point.Y >= cornerPosition.Top - stickyCornersHeight)
+                            if (point.Y >= cornerPosition.Top - stickyCornersHeight || point.Y <= cornerPosition.Bottom + stickyCornersHeight)
                                 if (point.X == cornerPosition.Left && point.X != 0)
                                 {
                                     Console.WriteLine($"(Corner! : {point.X},{point.Y})");
