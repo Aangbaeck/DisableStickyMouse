@@ -58,11 +58,19 @@ namespace DisableStickyCorners
                 dm.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE));
                 EnumDisplaySettings(screen.DeviceName, ENUM_CURRENT_SETTINGS, ref dm);
 
+
+                // For each screen, add the screen properties to a list box.
+                Console.WriteLine("Device Name: " + screen.DeviceName);
+                Console.WriteLine("Bounds: " + screen.Bounds.ToString());
+                Console.WriteLine("Type: " + screen.GetType().ToString());
+                Console.WriteLine("Working Area: " + screen.WorkingArea.ToString());
+                Console.WriteLine("Primary Screen: " + screen.Primary.ToString());
+
                 Console.WriteLine($"Device: {screen.DeviceName}");
                 Console.WriteLine($"Top: {screen.Bounds.Top}, L:{screen.Bounds.Left}, R:{screen.Bounds.Right}");
                 Console.WriteLine();
 
-                CornerPositions.Add(new Screen() { Top = screen.Bounds.Top, Right = screen.Bounds.Right, Left = screen.Bounds.Left, Bottom = screen.Bounds.Bottom});
+                CornerPositions.Add(new Screen() { Top = screen.Bounds.Top, Right = screen.Bounds.Right, Left = screen.Bounds.Left, Bottom = screen.Bounds.Bottom });
             }
 
 
@@ -82,14 +90,19 @@ namespace DisableStickyCorners
                             if (point.Y >= cornerPosition.Top - stickyCornersHeight || point.Y <= cornerPosition.Bottom + stickyCornersHeight)
                                 if (point.X == cornerPosition.Left && point.X != 0)
                                 {
+                                    #if DEBUG
                                     Console.WriteLine($"(Corner! : {point.X},{point.Y})");
+                                    #endif
                                     x--;
                                     SetCursorPos(x, y);
                                     break;
                                 }
                                 else if (point.X == cornerPosition.Right - 1)
                                 {
+                                    #if DEBUG
                                     Console.WriteLine($"(Corner! : {point.X},{point.Y})");
+                                    #endif
+
                                     x++;
                                     SetCursorPos(x, y);
                                     break;
@@ -100,6 +113,7 @@ namespace DisableStickyCorners
                 }
             });
             Console.ReadKey();
+
         }
 
         [DllImport("user32.dll")]
